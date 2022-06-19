@@ -2,9 +2,9 @@ import java.util.*;
 
 /**
  * ArrayListEx2
- */
+ */ 
 public class ArrayListEx2 {
-
+ 
     public static void main(String[] args) {
         final int LIMIT = 10;
         String source = "0123456789abcdefghijABCDEFGHIJ!@#$%^&*()ZZZ";

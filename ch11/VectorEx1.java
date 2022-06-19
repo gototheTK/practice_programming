@@ -17,7 +17,7 @@ public class VectorEx1 {
         v.trimToSize();
         System.out.println("=== After trimToSize()");
         print(v);
-
+ 
         v.ensureCapacity(6);
         System.out.println("=== After ensureCapacity(6) ===");
         print(v);

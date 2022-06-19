@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.Collection;
 
 class ArrayListEx1{
-
+ 
     public static void main(String[] args) {
         ArrayList list1 = new ArrayList(10);
         list1.add(new Integer(5));
