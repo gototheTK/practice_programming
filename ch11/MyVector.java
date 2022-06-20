@@ -1,3 +1,4 @@
+import java.rmi.server.ObjID;
 import java.util.*;
 
 public class MyVector implements List {
@@ -64,8 +65,54 @@ public class MyVector implements List {
         return oldObj;
     }
 
-    public void setCapacity(int minCapacity) {
+    @Override
+    public boolean remove(Object obj) {
+        // TODO Auto-generated method stub
+
+        for(int i=0; i < size; i++){
+            if(obj.equals(data[i])){
+                remove(i);
+                return true;
+            }
+        }
+
+        return false;
     }
+
+    public void trimToSize(){
+        setCapacity(size);
+    }
+
+
+    public void setCapacity(int capacity) {
+        if(this.capacity==capacity) return; // 크기가 같으면 변경하지 않는다.
+
+        Object[] tmp = new Object[capacity];
+        System.arraycopy(data,0, tmp, 0, size);
+        data = tmp;
+        this.capacity = capacity;
+    }
+
+    @Override
+    public void clear() {
+        // TODO Auto-generated method stub
+        for (int i =0; i<size; i++){
+            data[i] = null;
+        }
+        size = 0;
+    }
+
+    @Override
+    public Object[] toArray() {
+        // TODO Auto-generated method stub
+
+        Object[] result = new Object[size];
+        System.arraycopy(data, 0, result, 0, size);
+        return result;
+    }
+
+    public int capacity() { return capacity;}
+
 
     @Override
     public void add(int index, Object element) {
@@ -85,12 +132,7 @@ public class MyVector implements List {
         return false;
     }
 
-    @Override
-    public void clear() {
-        // TODO Auto-generated method stub
-        
-    }
-
+    
     @Override
     public boolean contains(Object o) {
         // TODO Auto-generated method stub
@@ -114,7 +156,7 @@ public class MyVector implements List {
     @Override
     public boolean isEmpty() {
         // TODO Auto-generated method stub
-        return false;
+        return size ==0;
     }
 
     @Override
@@ -142,13 +184,6 @@ public class MyVector implements List {
     }
 
     @Override
-    public boolean remove(Object o) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-
-    @Override
     public boolean removeAll(Collection c) {
         // TODO Auto-generated method stub
         return false;
@@ -169,17 +204,11 @@ public class MyVector implements List {
     @Override
     public int size() {
         // TODO Auto-generated method stub
-        return 0;
+        return size;
     }
 
     @Override
     public List subList(int fromIndex, int toIndex) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Object[] toArray() {
         // TODO Auto-generated method stub
         return null;
     }
