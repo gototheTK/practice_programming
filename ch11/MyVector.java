@@ -79,6 +79,12 @@ public class MyVector implements List {
         return false;
     }
 
+    public boolean equals(Object o) {
+
+        return data.equals(o);
+
+    }
+
     public void trimToSize(){
         setCapacity(size);
     }
@@ -117,6 +123,15 @@ public class MyVector implements List {
     @Override
     public void add(int index, Object element) {
         // TODO Auto-generated method stub
+
+        if(index > size || index < -1)
+            throw new IndexOutOfBoundsException();
+
+        if(index!=size){
+            System.arraycopy(data, index, data, index+1, size-index);
+        }
+
+        data[index] = element;
         
     }
 
@@ -136,6 +151,11 @@ public class MyVector implements List {
     @Override
     public boolean contains(Object o) {
         // TODO Auto-generated method stub
+
+        for (int i = 0; i < size; i++){
+            if(data[i].equals(o)) return true;
+        }
+
         return false;
     }
 
@@ -150,7 +170,16 @@ public class MyVector implements List {
     @Override
     public int indexOf(Object o) {
         // TODO Auto-generated method stub
-        return 0;
+
+        int index = -1;
+
+        for(int i=0; i<size; i++){
+
+            if(data[i].equals(o)) return i;
+
+        }
+
+        return index;
     }
 
     @Override
@@ -168,6 +197,13 @@ public class MyVector implements List {
     @Override
     public int lastIndexOf(Object o) {
         // TODO Auto-generated method stub
+
+        for(int i=size-1; i>=0; i--){
+
+            if(data[i].equals(o)) return i;
+
+        }
+
         return 0;
     }
 
@@ -198,7 +234,14 @@ public class MyVector implements List {
     @Override
     public Object set(int index, Object element) {
         // TODO Auto-generated method stub
-        return null;
+
+        if(index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("범위를 벗어났습니다.");
+        
+        data[index] = element;
+        
+
+        return data[index];
     }
 
     @Override
@@ -217,6 +260,18 @@ public class MyVector implements List {
     public Object[] toArray(Object[] a) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public String toString() {
+
+        String result = "";
+        for(int i=0; i<size; i++){
+
+            result += data[i];
+
+        }
+
+        return result;
     }
 
 
