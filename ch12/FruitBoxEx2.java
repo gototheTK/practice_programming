@@ -3,7 +3,7 @@ import java.util.ArrayList;
 class Fruit implements Eatable { public String toString() { return "Fruit";}}
 class Apple extends Fruit { public String toString() { return "Apple";}}
 class Grape extends Fruit { public String toString() { return "Grape";}}
-class Toy { public String toString() { return "Toy"; }}
+class Toy implements Eatable { public String toString() { return "Toy"; }}
 
 interface Eatable {}
 
@@ -31,10 +31,16 @@ public class FruitBoxEx2 {
         System.out.println("fruitBox-"+fruitBox);
         System.out.println("appleBox-"+appleBox);
         System.out.println("grapeBox"+grapeBox);
+
+        
+
+        
     }   //main
 
    
 }
+
+
 
 
 class FruitBox <T extends Fruit & Eatable> extends Box<T>{}
