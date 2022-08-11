@@ -10,8 +10,8 @@ class MyArrayList<T> {
         this.arr = arr;
     }
 
-    @SafeVarargs
-    @SuppressWarnings("varargs")
+    // @SafeVarargs
+    @SuppressWarnings("unchecked")
     public static <T> MyArrayList<T> asList(T... a) {
         return new MyArrayList<>(a);
     }
