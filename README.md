@@ -38,7 +38,7 @@
       BREAD(2800, "빵"),
       CAKE(17000, "케이크"),
       COFFEE(4300, "커피"),
-      BEVERAGE(2500, "음료")
+      BEVERAGE(2500, "음료");
 
       int price;
       String name;
