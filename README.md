@@ -85,7 +85,46 @@
   ```
 
   class 파일에는 Generic정보가 존재하며, 컴파일 후에는 Formal Type Parameter가 Object로 서술됩니다. Object로 일반화된 클래스나 Generic으로 일반화된 클래스나 작동방식은 다르지 않습니다.
-    
+
+
+
+---
+
+## Collection
+
+  자바에서 제공하는 자료구조 라이브러리이다. 
+
+### List<E>
+
+  순서가 있는 자료구조로 만들어진 경우는 List Interface를 구현합니다. List Interface를 구현한 클래스들은 ArrayList, LinkedList, Vector, Stack등이 존재합니다.
+
+  1. ArrayList<E>
+  
+    - List 인터페이스를 구현한 순서가 있는 배열이 자료구조 객체입니다. 
+    - 데이터 추가시 배열이 모두 채워지면, 새로운 배열을 만들어서 값을 복사하고, 기존 배열을 대체합니다. 또한 데이터를 중간에 삭제하면, 그 위치부터 마지막 데이터까지 데이터를 복사하며 한칸씩 이동시킵니다. 마지막 데이터가 있던 공간은 null이 채워집니다.
+    - 새로운 배열을 만들거나 앞으로 복사하기 때문에, 데이터가 많을수록 접근하는 시간이 길어집니다.
+    - 생성시 배열의 크기가 정해지지 않는다면, 기본 배열의 크기는 10입니다.
+    - 배열의 크기가 아무리 크더라도, 데이터들의 길이를 넘는 곳에 접근하려고 하면 IndexOutOfBoundsException이 발생합니다.
+    - 데이터의 양이 일관적이고 삽입, 삭제가 빈번하지 않을 경우와 접근속도가 중요할때 종종 사용합니다.
+
+  ```
+
+  ArrayList<String> test = new ArrayList<>();
+  ArrayList<String> test = new ArrayList<>(10);
+
+  test.add("테스트1"); // 데이터 추가시
+  test.remove(0); // 인덱스로 데이터를 찾아 삭제시
+  test.add("테스트2");
+  test.remove("테스트2"); // 데이터를 찾아서 삭제시
+  test.size(); // 데이터의 길이
+  test.add("테스트3");
+  test.set(0,"데스트4"); // 데이터 변경시
+  test.get(0); // 특정 데이터 접근시
+  test.add(null); // 데이터의 논리적 공간을 늘릴시
+  
+  ```
+
+  2. LinkedList
     
   
   
