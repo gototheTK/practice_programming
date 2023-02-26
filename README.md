@@ -129,7 +129,7 @@
   데이터와 다음 연결 위치를 가리키는 노드라는 객체들의 연결로 이루어진 자료구조입니다.
 
     - 삽입과 삭제가 빠릅니다.
-    - 데이터가 많아지면 많아질수록 특정 데이터에 접근하는게 느려집니다.
+    - 처음부터 하나씩 거처가며 확인하기때문에, 데이터가 많아지면 많아질수록 데이터에 접근이 느려집니다.
     - 데이터의 삽입, 삭제가 많은 처리에 어울리는 자료 구조입니다.
     - 추가, 삽입, 접근, 삭제 모두 논리적인 자료의 길이를 넘어가면 인덱스 오류를 발생 시키므로 주의하여야 합니다.
 
@@ -154,6 +154,113 @@
   test.set(0,"수박");
 
   ```
+
+### Map<Key, Value>
+
+  Key와 Value로 이루어진 자료구조를 구현한 자바의 자료구조 도구로써, Map을 Interface로 선언하여 HashMap, TreeMap, LinkedHashMap등을 구현하였습니다.
+
+  1. HashMap<Key, Value>
+
+    - Key와 Value를 HashTable이라는 자료구조를 이용하여 매핑하는 자바의 자료구조 도구입니다. 참고로, HashTable은 Key를 Hash함수로 bucket의 인덱스로 변환시켜서, bucket에 맞는 인덱스에 key와 value를 저장하는 방식의 자료구조 입니다. 즉, bucket기반의 자료구조 입니다.
+    - 충분히 큰 데이터를 가지고 있을 경우, entry의 저장방식을 LinkedList 에서 TreeNode로 변경합니다.
+
+    - 동일한 key로 저장할 경우 기존에 저장된 값이 소멸된다.(값의 중복은 상관없다.)
+    - key는 대소문자를 구분한다.
+    - 다양한 참조 자료형을 key로 사용할 수 있으나 index 생성 시 Object.hashCode()코드에 의존하므로 논리적으로 동일한 객체라고 하더라도 물리적으로 인스턴스가 다를 경우 Object를 key로 사용하면 원치 않는 결과가 발생할 수 있다.
+      
+  ```
+  package hashmap;
+
+  import java.util.HashMap;
+  
+  public class HashMapTest {
+  
+    public static void test() {
+      HashMap<String, String> map = new HashMap<>();
+  
+      // TODO : 데이터 삽입
+  
+      // 데이터 삽입
+      map.put("codelatte", "코드라떼");
+      map.put("kantata", "김철수");
+      map.put("cafe", "카페");
+  
+      String value1 = map.get("codelatte");
+      // "코드라떼"
+  
+      String value2 = map.get("cafe");
+      // "카페"
+  
+      String value3 = map.getOrDefault("coffee", "커피");
+      // hashmap에 "coffee" 키가 존재하지 않을 경우 "커피"를 반환한다.
+  
+      // key 값을 이용하여 삭제
+      map.remove("kantata");
+
+      // key 값을 출력(정렬되어 있지 않음)
+      for (String key : map.keySet()) {
+        System.out.println(key);
+      }
+
+      // value값을 출력(정렬되어 있지 않음)
+      for (String value : map.value()) {
+        System.out.println(value);
+      }
+
+      // 동일한 key로 값을 저장하는 경우 기존에 저장된 값이 덮어쓰기가 됩니다.
+      map.put("coffee", "아메리카노");
+      map.put("coffee", "카페라떼");
+
+      String value1 = map.get("coffee");
+
+      // HashMap의 key로 Object를 사용할 시 주의해야 할 점
+
+      private class Address {
+        private String city;
+        private String street;
+
+        public Address(String city, String street) {
+          this.city = city;
+          this.street = street;
+        }
+        
+      }
+
+      // 데이터 삽입
+      map.put(new Address("서울시", "강남서로 20"), "서울시 강남서로 20");
+      map.put(new Address("서울시", "강남서로 20"), "서울시 강남서로 20");
+
+      System.out.println(map);
+
+      /** 
+      의미상으로는 동일한 객체로 보일 수 있어도, 서로 다른 인스턴트이기 때문에 인스턴트의 hashcode가 다릅니다. 그러므로 두 객체는 HashMap에 중복 없이 저장됩니다.
+
+      "모든 클래스는 Object 클래스를 상속받는다" 강의에서 같은 의미의 객체로 만들고 싶으면 Object.equals()메서드와 Object.hashCode()메서드를 재정의 해야 한다고 했었습니다.
+
+      HashMap은 내부적으로는 해당 메서드들을 사용하기 때문에 같은 key로 만들고 싶다면 Object.equals()메서드와 Object.hashCode()메서드를 재정의 해야합니다.
+      **/
+
+      // Map 인터페이스를 구현하는 HashMap
+      Map<String, String> map = new HashMap<>();
+
+      // 다형성의 특징으로 HashMap의 참조 값을 Map 참조 자료형에 저장할 수 있습니다. 다만 Map의 공통적인 인터페이스만 선언되어 있기 때문에 HashMap의 모든 메서드를 사용할 수는 없습니다.
+      
+    }
+    
+  }
+  
+  ```
+
+  2. TreeMap<Key, Value>
+
+    TreeMap은 Red-Black Tree를 이용하여 만들어졌으므로 간략히 Tree 구조에 대해서 알아봅시다. 논리적인 Tree 구조는 다음과 같으며, 나뭇가지를 거꾸로 회전시킨 모양입니다.
+
+    Tree는 Node들의 연결로 이루어져 있으며 Node안에 데이터가 저장되는 LinkedList와 유사하고 할수 있습니다.
+
+    
+
+  3. LinkedHashMap<Key, Value>
+    
     
   
 
