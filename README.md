@@ -358,9 +358,50 @@
   Map<String, String>  map  = new TreeMap<>();
 
   ```
+---
   
   3. LinkedHashMap<Key, Value>
-    
-    
+
+  LinkedHashMap은 HashMap을 상속받아 만들어진 클래스이고, HashMap의 특징을 가지고 있습니다. 그러나 Node객체를 Entity객체로 감싸서 key의 저장된 순서를 보존합니다.
+
+  장점
+
+  - HashMap의 장점을 그대로 보존하고, HashMadp과 다르게 key의 저장된 순서에 따라 순서를 보존합니다.
+
+  단점
+
+  - HashMap의 단점을 그대로 보장합니다.
+
+  사용용도
+
+  - 저장된 Key의 값이 중요할때 사용합니다.
+
+  LinkedHashMap의 예시
+
+  ```
+  
+  import java.util.LinkedHashMap;
+
+  // String key, String value
+  LinkedHashMap<String, String> map = new LinkedHashMap<>();
+
+  // 데이터 삽입
+  map.put("2", "2");
+  map.put("3", "3");
+  map.put("1", "1");
+  map.put("4", "4");
+
+  // key 값을 출력
+  for (String key: map.keySet()) {
+    System.out.println(key);
+  }
+
+  // value 값을 출력
+  for (String value: map.values()) {
+    System.out.println(value);
+  }
+  // "2", "3", "1", "4"
+  
+  ```
   
 
