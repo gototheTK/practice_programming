@@ -253,12 +253,121 @@
 
   2. TreeMap<Key, Value>
 
-    TreeMap은 Red-Black Tree를 이용하여 만들어졌으므로 간략히 Tree 구조에 대해서 알아봅시다. 논리적인 Tree 구조는 다음과 같으며, 나뭇가지를 거꾸로 회전시킨 모양입니다.
+  - TreeMap은 Red-Black Tree를 이욯하여 만들어진 자료구조 라이브러리 입니다. (참고로, Tree는 가계 족보와 같이 Root Node를 시작으로 Node들이 계층적으로 연결되어 있는 자료구조 입니다.)
 
-    Tree는 Node들의 연결로 이루어져 있으며 Node안에 데이터가 저장되는 LinkedList와 유사하고 할수 있습니다.
+  - TreeMap에 저장될때, Key값을 기준으로, RootNode부터 시작하여 작으면 좌측하위Node, 크면 우측하위Node와 비교하여, 작지 않은 노드의 key값을 찾을때까지 반복하여 저장합니다. 만약 적지 않은 노드가 없다면 맨 하위 계층에 저장됩니다.
 
+  - Red-Black Tree 특성상 삭제되거나 추가되면 노드들이 재배치 됩니다.
+
+  장점
+  
+  - Tree구조의 자료구조이기떄문에 선형자료구조보다 자료접근이 보통 빠릅니다.
     
+  - key 값을 기준으로 오름차순으로 정렬된 Key값들을 반환할 수 있습니다.
 
+  - HashMap 대비 필요한 양의 메모리를 사용하므로, 상대적으로 HashMap보다 메모리를 절약할 수 잇습니다.
+
+  단점
+  
+  - 삽입이나 삭제시 Node들을 재배치해하고, 접근할때 검색속도가 HasMap보다는 상대적으로 느립니다.
+  - Key값으로 null값을 허용하지 않습니다.
+
+  사용용도
+  
+  - 데이터의 양이 예상가능하지 않거나 삭제, 삽입이 비번하며 정렬된 key값이 필요할때 주로 사용합니다.
+  
+  주의할점 (HashMap과 동일)
+  
+  - Key의 중복을 허용하지 않으며, 문자일경우 대소문자를 구별합니다.
+  - 참조자료형으로 Key값을 구성할 경우, 논리적인 값은 같더라도 물리적인 값이 다르라면 같은 key로 인식합니다. 즉, 인스턴트가 같지 않다면, 서로 다른 key값으로 인식합니다.
+
+  예시)
+  ```
+
+  //  데이터 삽입
+  map.put(new String(""), "안녕");
+  map.put(new String(""), "안녕");
+
+  ```
+
+  TreeMap의 생성
+  ```
+    import java.util.TreeMap;
+
+    TreeMap<Key,Value> map = new TreeMap<>();
+  ```
+
+  TreeMap의 데이터 접근
+
+    HashMap과 마찬가지로 데이터에 접근하는 방법은 get이라는 메서드로 접근하고, getOrDefault(Object key, Object value)를 이용하여 저장된 값에 접근할 수 있습니다.
+
+  예시)
+
+  ```
+  import java.util.TreeMap;
+
+  // String key, String value
+  TreeMap<String, String> map = new TreeMap<>();
+
+  // 데이터 삽입
+  map.put("codelatte", "코드라떼");
+  map.put("kantata", "김철수");
+
+  String value1 = map.get("codelatte");
+  // "코드라떼"
+
+  String value2 = map.get("cafe");
+  // "카페"
+
+  String value3 = map.getOrDefault("coffee", "커피");
+  // treemap에 "coffee" 키가 존재하지 않을 경우 "커피"를 반환한다.
+
+  ```
+
+  TreeMap의 Key값과 Value값을 출력
+
+  - Map의 key와 value를 추출하면, 각각 오름차순으로 정렬되어 추출됩니다.
+
+  ```
+  import java.util.TreeMap;
+
+  // String key, String value
+
+  // 데이터 삽입
+  map.put("2", "2");
+  map.put("3", "3");
+  map.put("1", "1");
+  map.put("4", "4");
+
+  // ket 값을 출력
+  for (String key : map.keySet()) {
+    System.out.println(key);
+  }
+
+  // "1", "2", "3", "4"
+    
+    //  value 값을 출력
+    for (String value : map.values()) {
+      System.out.println(value);
+    }
+
+    // "1", "2", "3", "4"
+    
+  ```
+
+  - TreeMap 역시 HashMap과 마찬가지로, key의 중복을 허가하지 않습니다. 역시 참조자료형으로 key를 사용할 시 Object.hashCode()와 Object.equals()로 key값을 생성하거나 판단하기때문에, 논리적인 값이 같더라도 물리적값이 달라 의도한 key가 중복되는 상황이 발생할 수 있습니다.
+
+  - Map 인터페이스를 구현하였기때문에, Map의 참조자료형에 TreeMap을 인스턴스를 저장할 수있습니다. 그러나 Map의 참조자료형으로는 TreeMap의 고유 메서드는 사용할 수없습니다.
+
+  ```
+  import java.util.TreeMap;
+  import java.util.Map;
+
+  //  String key, String value
+  Map<String, String>  map  = new TreeMap<>();
+
+  ```
+  
   3. LinkedHashMap<Key, Value>
     
     
