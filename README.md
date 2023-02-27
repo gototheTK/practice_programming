@@ -514,7 +514,44 @@
   
   ```
 
+--- 
+
 ### 3. TreeSet<E>
+
+TreeSet은 논리적인 Tree구조로 데이터를 저장하는 Set입니다.
+
+
+Set의 특징을 가지고 있으며, 동일한 원소를 저장하더라도 저장소에는 중복된 값이 존재하지 않습니다.
+
+또한 TreeSet은 Tree 구조를 이용한 TreeMap을 이용하여 만들어져 있습니다.
+
+```
+
+  // TreeSet의 생성자
+  public TreeSet() {
+    this(new TreeMap<E, Object>());
+  }
+
+  ...
+
+```
+
+TreeSet의 생성자를 보면 TreeMap을 이용하여 Set 구조를 만드는 것을 확인할 수 있습니다.
+
+```
+
+  // 더미 Object
+  public static final Object PRESENT = new Object();
+
+  // TreeSet의 데이터 add 메서드
+  public boolean add(E e) {
+    return m.put(e, PRESENT) == null;
+  }
+```
+
+Map의 특성 중 하나인중복 Key는 존재할 수 없다는 특징을 이용하여, key를 Set의 값으로, value에는 더미 Object를 저장 방식으로 데이터를 추가합니다.
+
+즉, TreeSet을 이해하려면 TreeMap에 대해서 먼저 알아야 합니다.
 
 
 
