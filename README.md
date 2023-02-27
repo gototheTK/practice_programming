@@ -403,5 +403,121 @@
   // "2", "3", "1", "4"
   
   ```
+
+---
+---
+
+## Collection - Set
+
+### 1. Set<E>
+
+  - Java에서는 인터페이스인 Collection을 상속받은 Set<E>이라는 자료구조 라이브러를 제공합니다. Set은 집합처럼 중복이 없는 데이터모음을 만들어주는 자료구조입니다.
   
+  - 종류로는 HashSet, TreeSet, LinkedHashSet등이 있습니다.
+
+### 2. HashSet<E>
+
+  HashSet은 HashTable의 구조를 이용한 HashMap을 이용하여 만들어진 자료구조 라이브러리 입니다. 그리하여 HashMap과 특징을 공유합니다.
+
+
+  특징
+  - Map의 특성인 key의 중복불가를 이용합니다. 
+  - 생성자와 추가 메서드를 보면 HashMap의 key값에Set의 값으로 value에는 더미객체를 저장하여 구현되어 있습니다. 즉, HashMap을 그대로 이용합니다.
+  - HashMap을 이용하여 만들어져 있으므로, 값은 정렬되어 있지 않습니다.
+
+  사용용도
+  - idnex가 아닌 key값으로 데이터를 접근하는 경우에 사용합니다.
+  - 삽입 삭제가 빈번하고, 데이터의 크기가 예상되는 경우에 사용합니다.
+
+  HashSet Code)
+  ```
+    // 더미 Object
+    public static final Object PRESENT = new Object();
+  
+    // HashSet의 생성자
+    public HashSet() {
+      map = new HashMap<>();
+    }
+
+
+    public HashSet(Collection<? extends E> c) {
+      map = new HashMap<>(Math.max((int) (c.size() / 0.75f) + 1, 16));
+    }
+    
+    // HashSet의 데이터 
+    add(E e) {
+    return map.put(e, PRESENT) == null;
+    }
+      
+  ```
+
+  예제)
+  
+  ```
+  import java.util.HashSet;
+
+  // HashSet의 생성
+
+  HashSet<String> texts = new HashSet<>();
+
+  // HashSet의 데이터 삽입
+  
+  // String value
+  HashSet<String> set = new HashSet<>();
+
+  // 데이터 삽입
+  set.add("코드라떼");
+  set.add("codelatte");
+  
+
+  // 메서드를 이용하여 데어티를 저장할 수 있습니다.
+  HashSet.add(value)
+
+
+  // HashSet 값 포함 여부 확인
+  
+  // 데이터 삽입
+  set.add("코드라떼");
+  set.add("codelatte");
+
+  boolean isExist = set.contains("codelatte");
+  // 있으면 true, 없으면 false
+  
+
+  // HashSet 값 삭제
+
+  // 데이터 삽입
+  set.add("코드라떼");
+  set.add("codelatte");
+  set.add("카페라떼");
+
+  // 데이터 삭제
+  set.remove("카페라떼");
+  
+
+
+  // Hash 값 출력
+
+  // 데이터 삽입
+  set.add("1");
+  set.add("23");
+  set.add("2");
+  set.add("14");
+  set.add("2");
+  set.add("5");
+
+  for (String value : set) {
+    System.out.println(value);
+  }
+
+  // "1", "23", "2", "14", "5"
+  
+  ```
+
+### 3. TreeSet<E>
+
+
+
+### 4. LinkedHashSet<E>
+### 5. [추가] 합집합, 교집합, 차집합, 여집합, 부분집합
 
