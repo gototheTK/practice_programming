@@ -577,7 +577,6 @@ public LinkedHashSet() {
 
 HashSet)
 
-```
 
 // HashSet의 default 접근 제어 지시자 생성자
 HashSet(int initialCapacity, float loadFactor, boolean dummy) {
@@ -598,8 +597,6 @@ HashSet(int initialCapacity, float loadFactor, boolean dummy) {
 - 값의 저장된 순서가 중요할때 사용합니다.
 
 ```
-
-
 
 import java.util.LinkedHashSet;
 
@@ -660,5 +657,109 @@ for(String value : set) {
 
 ---
 
-### 5. [추가] 합집합, 교집합, 차집합, 여집합, 부분집합
+### 5. [추가] 합집합, 교집합, 차집합, 여집합, 부분집합여부, 원소포함여부
 
+
+자바에서 합집합, 교집합, 차집합, 부분집합 및 여부을 구현해 볼수있습니다.
+합집합은 Set.addAll(Collection)
+교집합은 Set.retainAll(collection)
+차집합은 Set.removeAll(Collection)
+
+집합을 추출할때, 원본의 데이터를 변경시키므로 데이터를 복사하여서 데이터를 추출해야한다.
+
+부분집합여부는 Set.containsAll(Collection)
+원소포함여부는 Set.contains(value)
+
+A = {1, 2, 3, 4, 5}
+B = {3, 4, 5, 6, 7}
+C = {3, 4}
+
+
+```
+
+// A 집합
+List<String> set1 = Arrays.asList("1", "2", "3", "4", "5");
+TreeSet<String> A = new TreeSet<>(set1);
+
+// B 집합
+List<String> set2 = Arrays.asList("3", "4", "5", "6" ,"7");
+TreeSet<String> B = new TreeSet<>(set2);
+
+// C 집합
+List<String> set3 = Arrays.asList("3", "4");
+TreeSet<String> C = new TreeSet<>(set3);
+
+
+// C집합이 A집합의 부분집합인지 확인 방법
+boolean isContainAll = B.contains(C);
+System.out.println("C ⊂ B ? " + isContainsAll);
+
+/**
+Set.containsAll(set)메서드를 이용하여 부분집합여부를 확인할 수 있습니다.
+부분집합이면 true, 부분집합이 아니면 false를 반환합니다.
+**/
+
+
+// 원소의 포함여부 확인 방법
+boolean isContain = B.contains("7");
+System.out.println("7 ⊂ B ? "+ isContain);
+
+/**
+Set.contains(value)메서드를 이용하여 해당 집합에 원소가 포함되는지 확인할 수 있습니다.
+원소가 포함되면 true, 원소가 포함되지 않으면 false를 반환합니다.
+**/
+
+//A교잡합 B 추출 방법
+TreeSet<String> cloneA = new TreeSet<>(set1);
+boolean isModified = cloneA.retainAll(B);
+System.out.println("A ∩ B ? "+cloneA);
+
+/**
+
+Set.retainAll(collection) 메서드를 이용하여 교집합을 추출할 수 있습니다.
+
+반환값은 cloneA 변경 여부를 반환합니다.
+
+cloneA에 원소가 존재하지 않는 경우를 제외하고는 항상 true를 반환한다고 보시면 됩니다.
+
+그리고 Set.retainAll(collection) 메서드는 원본의 데이터를 변경하므로, 원본의 데이터 손실을 원하지 않는다면 원본을 복사해서 사용해야 합니다.
+**/
+
+//A 합집합 B 추출 방법
+
+
+
+TreeSet<String> cloneA = new TreeSet<>(set1);
+boolean isModified = cloneA.addAll(B);
+System.out.println("A U B ? " + cloneA);
+
+/**
+
+Set.addAll(collection) 메서드를 이용하여 합집합을 추출할 수 있습니다.
+
+반환값은 cloneA 변경 여부를 반환합니다.
+
+cloneA에 원소가 존재하지 않는 경우를 제외하고는 합성 true를 반환한다고 보시면 됩니다.
+
+그리고 Set.addAll(collection) 메서드는 원본의 데이터를 변경하므로, 원본의 데이터 변경을 원하지 않는다면 원본을 복사해서 사용해야 합니다.
+
+**/
+
+//A 차집합 B 추출 방법(A - B)
+
+
+TreeSet<String> cloneA = new TreeSet<>(set1);
+boolean isModified = cloneA.removeAll(B);
+System.out.println("A - B ? " + cloneA);
+
+/**
+
+Set.removeAll(collection) 메서드를 이용하여 차집합을 추출할 수 있습니다.
+
+반환값은 cloneA 변경 여부를 반환합니다.
+
+cloneA에 원소가 존재하지 않는 경우를 제외하고는 항상 true를 반환한다고 보시면 됩니다.
+
+그리고 Set.removeAll(collection) 메서드는 원본의 데이터를 변경하므로, 원본의 데이터 변경을 원하지 않는다면 원본을 복사해서 사용해야 합니다.
+
+**/
