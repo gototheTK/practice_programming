@@ -933,3 +933,121 @@ int size = stack.size();
 2.Queue
 ---
 
+Queue라는 자료구조는 가장 먼저 들어간 데이터가 가장 먼저 나온다는 FIFO(First-In-First-Out)의 자료구조입니다. 트럭푸드의 대기열과 비슷합니다. 가장 먼저 빨리온 사람이 가장 먼저 계산을 하고 음식을 받고 집으로 갑니다.
+
+---
+
+Queue<E> - interface
+---
+
+자바에서는 Queue는 인터페이스로 정의되어있고, 이 인터페이스를 상속받아 구현하여 사용합니다. 대표적인 클래스로 LinkedList와 ArrayDeque가 있습니다.
+
+
+### 특징
+
+1. FIFO(First-In-First-Out)의 성질을 가지고 있습니다.
+
+### 사용용도
+
+1. 작업의 순차적인 처리가 필요할때 사용합니다.
+2. 저장된 순서대로 데이터를 불러올때 사용합니다.
+
+
+### Queue의 생성
+
+```
+
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.ArrayDeque;
+
+
+/**
+
+Queue를 생생하는 방법은 LinkedList와 ArrayDeque 클래스를 이용합니다.
+중간에 데이터에 접근해야할 이유가 없다면 배열을 사용하는 ArrayDeque보다는 맨 앞과 뒤의 데이터에 접근하기 쉬운 LinkedList를 사용하는것이 적절합니다.
+
+**/
+// LinkedList를 이용한 Queue
+Queue<E> queue = new LinkedList<>();
+
+// ArrayDeque를 이용한 Queue
+Queue<E> queue = new ArrayDeque<>();
+
+
+// Queue에서 데이터를 저장하는 방법은 queue.add(data) 메서드를 이용합니다.
+// Queue의 데이터 삽입 
+queue.add("전화A");
+queue.add("전화E");
+queue.add("전화B");
+queue.add("전화D");
+queue.add("전화C");
+
+
+
+/** queue.poll() 메서드를 이용하여 가장 먼저 들어간 데이터를 꺼냅니다. Stack의 pop과 마찬가지로 실행하면 데이터가 삭제됩니다. Stack과 다른점은 데이터가 존재않는 경우 Stack은 EmptyStackException을 발생시키지만, Queue.poll()은 null을 반환합니다. **/
+// Queue 데이터 꺼내기
+queue.add("전화A");
+queue.add("전화E");
+queue.add("전화B");
+queue.add("전화D");
+queue.add("전화C");
+
+String data1 = queue.poll();
+// 전화A
+
+String data2 = queue.poll();
+// 전화E
+
+String data3 = queue.poll();
+// 전화B
+
+
+/**
+queue.poll()을 실행시키면, 데이터가 삭제되기때문에 가장 먼저 나올 데이터를 확인하기 위해서는 queue.peek()메서드를 사용합니다.
+**/
+// Queue의 맨 앞 데이터 확인
+queue.add("전화A");
+queue.add("전화E");
+queue.add("전화B");
+queue.add("전화D");
+queue.add("전화C");
+
+String data1 = queue.peek();
+// 전화A
+String data2 = queue.peek();
+// 전화A
+String data3 = queue.peek();
+// 전화A
+
+
+
+
+
+//Queue이 비어있는지 확인
+queue.add("전화A");
+queue.add("전화E");
+queue.add("전화B");
+queue.add("전화D");
+queue.add("전화C");
+
+boolean imEmpty = queue.isEmpty();
+
+
+/**
+데이터 존재 여부를 확인하는 방법은 queue.isEmpty() 메서드를 사용하면 됩니다.
+데이터가 존재하지 않을 경우 true, 데이터가 존재할 경우는 false를 반환합니다.
+**/
+
+// Queue에 저장된 데이터의 크기
+
+queue.add("전화A");
+queue.add("전화E");
+queue.add("전화B");
+queue.add("전화D");
+queue.add("전화C");
+
+int size = queue.size();
+// 5
+
+```
