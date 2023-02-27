@@ -547,6 +547,7 @@ TreeSet의 생성자를 보면 TreeMap을 이용하여 Set 구조를 만드는 �
   public boolean add(E e) {
     return m.put(e, PRESENT) == null;
   }
+  
 ```
 
 Map의 특성 중 하나인중복 Key는 존재할 수 없다는 특징을 이용하여, key를 Set의 값으로, value에는 더미 Object를 저장 방식으로 데이터를 추가합니다.
@@ -556,5 +557,108 @@ Map의 특성 중 하나인중복 Key는 존재할 수 없다는 특징을 이�
 
 
 ### 4. LinkedHashSet<E>
+
+LinkedHashSet은 HashSet을 상속받아 만들어진 클래스입니다. 그러므로 HashSet과 특징을 공유합니다.
+
+다음과 같이 HashSet을 상속받아 구현하는 것을 알수있습니다.
+
+또한 생성할때, HashSet에서 LinkedHashMap을 이용하는 default 접근제어지시자를 가진 생성자를 super키워드로 이용합니다.
+
+LinkedHashSet)
+
+```
+// LinkedHashSet은 HashSet을 상속 받는다.
+public LinkedHashSet<E> extends HashSet<E> ...
+
+// LinkedHashSet의 생성자
+public LinkedHashSet() {
+  super(16, .75f true);
+}
+
+HashSet)
+
+```
+
+// HashSet의 default 접근 제어 지시자 생성자
+HashSet(int initialCapacity, float loadFactor, boolean dummy) {
+  map = new LinkedHashMap<>(initialCapacity, loadFactor)
+}
+
+```
+
+
+
+
+특징
+
+- HashSet을 상속받아 LinkedHashMap을 이용하므로, LinkedHashMap의 특징을 계승합니다.
+
+사용용도
+
+- 값의 저장된 순서가 중요할때 사용합니다.
+
+```
+
+
+
+import java.util.LinkedHashSet;
+
+// LinkedHashSet의 생성
+
+LinkedHashSet<String> texts = new LinkedHashSet<>();
+
+
+LinkedHashSet의 데이터 삽입
+
+// 데이터 삽입
+set.add("codelatte");
+set.add("코드라떼");
+
+
+// LinkedHashSet 값 포함 여부 확인
+
+
+// 데이터 삽입
+set.add("codelatte");
+set.add("코드라떼");
+
+boolean isExist = set.contains("roka");
+// 있으면 true, 없으면 false
+
+
+// LinkedHashSet 값 삭제
+
+
+// 데이터 삽입
+set.add("codelatte");
+set.add("코드라떼");
+set. add("카페라떼");
+
+// 데이터 삭제
+set.remove("카페라떼");
+
+// LinkedHashSet 값 츨략
+
+// String value
+LinkedHashSet<String> set = new LinkedHashSet<>();
+
+// 데이터 삽입
+set.add("1");
+set.add("23");
+set.add("3");
+set.add("14");
+set.add("2");
+set.add("5");
+
+for(String value : set) {
+  System.out.println(value);
+}
+
+// "1", "23", "3", "14", "2", "5"
+
+```
+
+---
+
 ### 5. [추가] 합집합, 교집합, 차집합, 여집합, 부분집합
 
