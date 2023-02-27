@@ -763,3 +763,173 @@ cloneA에 원소가 존재하지 않는 경우를 제외하고는 항상 true를
 그리고 Set.removeAll(collection) 메서드는 원본의 데이터를 변경하므로, 원본의 데이터 변경을 원하지 않는다면 원본을 복사해서 사용해야 합니다.
 
 **/
+
+```
+
+---
+---
+
+## Stack & Queue
+
+스택과 큐에 대해서 배워봅시다.
+
+
+목차
+---
+
+1. Stack
+
+2. Queue
+
+
+Stack
+---
+
+
+Stack
+---
+
+자바의 Collection 도구에서 제공하는 Stack 자료구조를 구현한 Stack 클래스입니다. LIFO(Last-In-First-Out)이 특징을 가지고있어서, 상자에서 물건을 꺼낼때 맨위의 자료를 먼저 꺼내야하는것처럼 먼저 들어간 자료가 나중에 들어간 자료보다 나가는 순번이 늦습니다.
+
+계산기나 가장 최근 데이터를 가져올 때 흔히 사용 됩니다.
+
+Stack<E>
+---
+
+  ArrayList와 유사한 Vector클래스를 상속하여 구현하였습니다. 참고로, Vector 클래스는 ArrayList 클래스와 다르게 Thread 동기화를 위해 synchronized 키워드가 선언되어 있습니다.
+
+### 특징
+
+1. LIFO 성질을 갖습니다.
+2. Vector클래스를 상속받아 ThreadSafe 합니다.(Thread와의 동기화를 위해 synchronized 키워드가 선언되어 있다.)
+
+### 사용용도
+
+1. 재귀적인 코드을 비재귀적인 코드로 바꿀때 사용합니다.
+2. 계산기를 만들거나 최근 저장된 데이터를 나열할 때 사용합니다.
+
+
+Stack 예제)
+
+```
+
+import java.util.Stack;
+
+// Stack의 생성
+Stack<E> stack = new Stack<>();
+
+//stack에서 데이터를 밀어 넣는 방법은 push(data) 메서드를 이용합니다.
+
+// Stack의 데이터 삽입
+Stack<String> stack = new Stack<>();
+stack.push("강의A");
+stack.push("강의E");
+stack.push("강의B");
+stack.push("강의D");
+stack.push("강의C");
+
+
+/**
+stack.pop() 매서드 사용 시 최근에 저장된 데이터를 가장 먼저 반환받습니다. stack.pop()의 특징은 데이터를 꺼낼 때 Stack에 저장된 기존 데이터는 삭제된다는 점입니다. 상자에서 물건을 꺼내면 상자에 물건이 들어있지 않는 것과 동일합니다. 만약 Stack에 데이터가 존재하지 않을 경우 EmptyStackException이 발생합니다.
+**/
+
+// Stack 데이터 꺼내기
+stack.push("강의A");
+stack.push("강의E");
+stack.push("강의B");
+stack.push("강의D");
+stack.push("강의C");
+
+String lessonName1 = stack.pop();
+// 강의C
+String lessonName2 = stack.pop();
+// 강의D
+String lessonName3 = stack.pop();
+// 강의 B
+
+
+/**
+stack.pop() 메서드를 사용하면 기존 데이터가 삭제된다는 점이 있었습니다. 단순히 Stack의 최상단 데이터를 확인하려면 stack.peek() 메서드를 이용하여 확인할 수 있습니다.
+**/
+
+Stack의 최상단 데이터 홧인
+
+stack.push("강의A");
+stack.push("강의E");
+stack.push("강의B");
+stack.push("강의D");
+stack.push("강의C");
+
+String lessonName1 = stack.peek();
+// 강의 C
+String lessonName2 = stack.peek();
+// 강의 C
+
+
+
+/**
+Stack에 데이터가 존재하는지 확인하기 위해 stack.search(data) 메서드를 사용할 수 있습니다. 반환 값은 검색한 데이터가 존재하지 않는다면 -1을 반환하며 존재한다면 stack.pop() 메서드를 호출했을 때 몇 번째순서로 나오는지 확인할 수 있습니다.
+**/
+// Stack에 저장된 데이터의 확인 및 순서 확인
+
+
+  stack.push("강의A");
+  stack.push("강의E");
+  stack.push("강의B");
+  stack.push("강의D");
+  stack.push("강의C");
+
+  int sequence1 = stack.search("강의A");
+  // 5
+  int sequence2 = stack.search("강의E");
+  // 4
+  int sequence3 = stack.search("강의B");
+  // 3
+  int sequence4 = stack.search("강의D");
+  // 2
+  int sequence5 = stack.search("강의C");
+  // 1
+
+
+  int search = stack.search("강의Z");
+  // -1
+  
+
+/**
+만약에 Stack에 데이터가 존재하지 않는 상황에서 stack.pop() 매서드를 호출하면 EmptyStackException이 발생합니다. 그러므로 stack.pop() 호출 시 Stack에 데이터가 존재하는지 확인해야 합니다. 데이터 존재 여부를 확인하는 방법은 stack.isEmpty() 메서드를 사용하면 됩니다.
+
+데이터가 존재하지 않을 경우 true, 데이터가 존재할 경우는 false를 반환합니다.
+**/
+
+//Stack이 비어있는지 확인
+stack.push("강의A");
+stack.push("강의E");
+stack.push("강의B");
+stack.push("강의D");
+stack.push("강의C");
+
+while (!stack.isEmpty()) {
+  System.out.println(stack.pop());
+}
+
+/**
+Stack 클래스는 Vector 클래스를 상속했으며, Vector 클래스는 List 인터페이스를 구현하므로 stack.size()메서드를 사용할 수 있습니다.
+**/
+// Stack에 저장된 데이터의 크기
+stack.push("강의A");
+stack.push("강의E");
+stack.push("강의B");
+stack.push("강의D");
+stack.push("강의C");
+
+int size = stack.size();
+// 5
+
+
+```
+
+---
+
+2.Queue
+---
+
