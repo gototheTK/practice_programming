@@ -1051,3 +1051,302 @@ int size = queue.size();
 // 5
 
 ```
+---
+---
+
+Wrapper 클래스
+---
+
+자바에는 기본자료형을 감싸는 Wrapper클래스라는 클래스가 존재합니다.
+
+타입을 매개변수처럼 사용하는 Generic을 사용하는 Collection 도구에서 기본 자료형의 데이터를 인스턴스로 전달하기 위해서 사용합니다.
+
+아래와 같은 예를 보자면, ArrayList의 list의 add는 기본적으로 Object를 상속받는 객체만 파라미터에 전달 할 수 있습니다. 그러므로 참조값만 전달할 수 있습니다. 기본 자료형의 값을 전달하기 위해서는 Wrapper클래스와 같은 객체로 감싸 인스턴스로 전달해야합니다. 이러한 목적의 클래스를 Wrapper 클래스라고 합니다.
+
+```
+
+List<Object> list = new ArrayList<>();
+list.add(object);
+
+Integer integer = new Integer(10);
+
+```
+
+기본 자료형과 매칭되는 Wrapper클래스는 다음과 같습니다.
+
+
+```
+
+// 상수 값을 인스턴스화
+
+
+// byte
+Byte bt = new Byte(1);
+
+// short
+Short sho = new Short(10);
+
+// int
+Integer integer = new Integer(10);
+
+// long
+Long long = new Long(10L);
+
+// float
+Float flo = new Float(10.2F);
+
+// double
+Double dou = new Double(10.2);
+
+// boolean
+Boolean bool = new Boolean(true);
+
+// char
+Character character = new Character('A');
+
+
+// Integer로 명시
+List<Integer> list = new ArrayList<>();
+
+// list에 값 저장
+list.add(new Integer(10));
+list.add(new Integer(20));
+list.add(new Integer(30));
+
+
+```
+
+Wrapper클래스에서 기본자료형을 반환하는 방법은 자료형의 이름에 맞는 xxxValue() 메서드를 사용하면 됩니다.
+
+```
+
+Byte bt = new Byte((byte) 0);
+byte bt1 = bt.byteValue();
+
+Short sho = new Short((short) 10);
+short sho1 = sho.shortValue();
+
+Integer integer = new Integer(10);
+int integer1 = integer.intValue();
+
+Long lo = new Long(10L);
+long lo1 = lo.longValue();
+
+Float f1 = new Float(10.2F);
+float fl1 = f1.floatValue();
+
+Double dou = new Double(10.2);
+double dou1 = dou.doubleValue();
+
+Character character = new Character('A');
+char character1 = character.charValue();
+
+Boolean bool = new Boolean(true);
+boolean bool1 = bool.booleanValue();
+
+
+```
+
+
+## Auto Boxing, Auto UnBoxing
+
+Wrapper 클래스를 사용할때 매번 new를 이용하여 인스턴스를 사용하기도 번거럽기도하고, Wrapper 클래스의 인스턴스끼리 연산이 가능하도록 하기 위해 Auto Boxing과 AutoUnBoxing을 도입하였습니다.
+
+Auto Boxing은 기본자료형을 참조자료형으로 변환해주는 기능이고, Auto UnBoxing은 참조자료형을 기본자료형으로 변환해주는 기능입니다.
+
+다음과 같이 참조자료형을 기본자료형으로 저장하여 초기화할때, Auto Boxing이 일어나 기본자료형이 참조자료형으로 변환됩니다. 저기서 저장된 1과 1.2는 모두 new Integer(1), new Double(1.2)와 같은 인스턴스 값들입니다.
+
+```
+
+Integer integer = 1;
+
+
+Double dou = 1.2;
+
+
+// Integer로 명시
+List<Integer> list = new ArrayList<>();
+
+// list에 값 저장
+list.add(10);
+list.add(20);
+list.add(30);
+
+```
+
+다음은 Auto Unboxing의 예입니다. 참조자료형을 기본자료형으로 변환하여 줍니다. 즉 xxxValue()와 같은 메서드를 사용할 필요가 없습니다.
+
+
+```
+
+Integer integer = 10;
+
+int integer1 = integer;
+
+```
+
+
+
+원래 대로라면 참조자료형에 기본자료형을 대입할수 없고 참조자료형끼리 연산은 불가능하지만, 파라미터에 상수를 대입하면 Auto Boxing이 일어나 상수를 인스턴스로 만들어주고, 연산을 할때는 Auto Unboxing이 일어나서 인스턴스가 상수로 변환되어 연산을 가능하게 해줍니다.
+
+
+```
+
+pulbic static int sum(Integer a, Integer b) {
+  return a + b;
+}
+
+
+int sum = sum(1, 2);
+
+```
+
+주의할점은 Wrapper클래스를 파라미터로 선언하면, null값을 인자로 받을 수 있습니다. 그러나 Auto Unbxoing일어나 참조자료형을 기본자료형으로 변환하려고할때 NullPointerException이 발생합니다.
+
+```
+
+int sum = sum(1, null);
+
+```
+
+그러므로 Wrapper클래스를 파라미터로 선언했을때, NullPointerException을 방지하기 위해서는 아래와같이 null값을 확인하여 주는게 바랍직합니다.
+
+```
+public static int sum(Integer a, Integer b) {
+  if (null != a && null != b) {
+      return a + b;
+  } else {
+      return 0;
+  }
+}
+
+```
+
+
+
+### 성능의 차이
+
+기본자료형 -> 참조자료형 또는 참조자료형 -> 기본자료형으로 변환하는 연산은 일반연산보다는 느립니다. 그러므로 산술연산을 수행할때는 기본자료형으로만 연산을 하는것이 좋습니다.
+
+
+### 기본 자료형 사술연산
+
+
+```
+
+int sum = 0;
+
+for (int i = 0; i < 1000000; i++) {
+  sum += i;
+}
+
+// 평균 6 ms
+
+```
+
+0 부터 1000000 까지의 수를 더한다고 가정했을 때 6ms 정도 걸립니다. (컴퓨터 마다 다름)
+
+
+### 참조 자료형 산술연산
+
+```
+
+int sum = 0;
+
+// Auto Boxing, Auto UnBoxing
+for (int i = 0; i < 1000000; i++) {
+  Integer tempI = i;
+  sum += tempI;
+}
+
+```
+
+0 부터 1000000 까지의 수를 더한다고 가정했을 때 변환 과정이 두 번 정도 발생하여 12 ms 정도 걸립니다. (컴퓨터마다 다름)
+
+
+Number
+
+Number클래스는 Boolean, Character을 제외하고, 다른 Wrapper클래스들의 추상클래스입니다. 
+
+Number클래스는 추상 클래스이나 Auto Boxing이 적용되어, 상수를 받으면 자동으로 인스턴스가 생성되어 참조값이 저장됩니다.
+
+```
+
+Number number1 = 1;
+
+Number number2 = 2.0;
+
+```
+
+다만 Number클래스는 Auto Unboxing이 적용되지않기때문에, 연산이 불가능합니다. 그 이유는 참조자료형으로서 어떤 자료형인지 알 수 없기때문입니다. 그러므로 xxxValue()와 같은 메서드로 명시적 변환이 필요합니다.
+
+
+```
+
+Number number1 = 1;
+
+Number number2 = 2.0;
+
+// 컴파일 불가
+double sum = number1 + number2;
+
+
+Number number1 = 1;
+
+Number number2 = 2.0;
+
+// 명시적 변환이 필요
+double sum = number1.doubleValue() + number2.doubleValue();
+
+```
+
+
+
+## Wrapper 클래스의 또 다른 용도
+
+Wrapper 클래스에는 기본적으로 형변환에 도움이 되는 몇가지 메서드를 제공합니다.
+
+앞으로 번번히 사용하게 되므로 알아두셔야 합니다.
+
+
+### 문자열 -> 수, 수->문자열 변환**
+
+Wrapper 클래스에서는 문자열을 수로 바꾸어주거나 수를 문자열로 바꾸어주는 기능들이있습니다.
+
+문자열로된 수를 parseXXX(String)와 같은 메서드를 이용하여 상수로 변환하여 줍니다. 단, 문자열이 수가 아니라면 NumberFormatException과 같은 오류가 발생합니다.
+
+또한 상수를 문자열로 바꾸어줄때도 toString(number)와 같은 메서드를 이용하면 문자열로된 수를 만들 수 있습니다.
+
+```
+
+String numberText = "1";
+
+// 문자열 -> 정수
+int number = Integer.parseInt(numberText);
+
+// 정수 -> 문자열
+String text = Integer.toString(number);
+
+String numberText = "1";
+
+// 문자열 -> 정수
+byte number = Byte.parseByte(numberText);
+
+// 정수 -> 문자열
+String text = Byte.toString(number);
+
+```
+
+### Max, Min, Value
+
+또한 Wrapper클래스에서는 해당 자료형의 최댓값과 최솟값의 정적 변수가 선언되어 있습니다.
+
+```
+
+byte maxByteValue = Byte.MAX_VALUE;
+byte minByteValue = Byte.MIN_VALUE;
+
+int maxIntValue = Integer.MAX_VALUE;
+int minIntValue = Integer.MIN_VALUE;
+
+```
