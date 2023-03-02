@@ -276,7 +276,6 @@ Thread는 작업의 실행 흐름 단위라고 했었습니다.
 소프트웨어 스레드에는 크게 커널 레벨 스레드와 사용자 레벨 스레드가 존재하는데요. 운영체제에는 가장 핵심인 커널이라는 것이 존재하며, 다양한 하드웨어들을 적절하게 관리합니다.
 
 
-
 커널이 관리하는 것들 중에서 CPU를 스케줄링에 따라 Core의 하드웨어 스레드를 논리적으로 관리하는 스레드를 커널 레벨 스레드라고 합니다.
 
 
@@ -324,7 +323,7 @@ public static void main(String[] args) {
 자바의 Thread를 얘기하기 위해 CPU와 Core와 CPU 스케줄링과, Process와 Hardware Thread, Kernel Level Thread, User Thread가 어떤 관계인지 굉장히 간략하게 살펴봤고, 적은 수의 Core로 수많은 Task를 실행해야 하는 어려움도 살펴봤습니다.
 
 
-일단 커라단 그림을 머릿속에 넣었으면 세부적인 내용은 앞으로 하나씩 채워나가면 됩니다.
+일단 커다란 그림을 머릿속에 넣었으면 세부적인 내용은 앞으로 하나씩 채워나가면 됩니다.
 
 
 4\. Thread를 많이 사용한다고 좋은 것은 아니다.
@@ -418,3 +417,101 @@ Thread를 옮겨가는 것만으로 저장, 읽기 연산이 계속 반복되며
 
 
 ---
+
+# 스레드와 메모리
+
+1\. Thread와 메모리
+---
+Thread와 메모리 관계를 들어가기 전에 기억이 안날 수도 있으므로 이전에 배웠던 Stack과 Heap, Method Area에 대해 다시 한번 정리하고 시작하겠습니다.
+
+
+### 자바의 메모리구조
+
+
+### Stack
+Stack은 Stack Frame 단위로 나우어져 있으며, Thread의 새로운 메서드가 실행되거나 탈출할 때마다 Stack Frame이 생성 및 소멸을 합니다. Stack Frame에는 메서드 내부의 로컬 변수를 관리하는 Local Variables Array와 연산 과정을 일시적으로 저장하는 Operand Stack, 그리고 메서드 종료 시 돌아와야 할 주소나 그 외 메서드에 대한 정보를 가지고 있는 Frame Data로 나뉘어 있습니다.
+
+
+### Heap
+Heap은 인스턴스 생성 시 인스턴스가 저장되는 메모리 공간입니다. 인스턴스는 참조 여부에 따라 Garbage Collector에 의해 수집 및 소멸되며, 참조 값을 이용하여 인스턴스의 메모리 공간에 접근할 수 있습니다. 문자열 상수를 관리하는 String Constant Pool이 Heap 메모리 공간에 포함되어 있습니다.
+
+### Method Area
+Method Area는 클래스 정보, 필드 정보, 메서드에 대한 정보, 인터페이스, 심볼릭 레퍼런스 등 자바 프로그램을 실행시키기 위한 다양한 정보를 가지고 있습니다. 클래스 정적 변수와 클래스 정적 메서드도 Method Area 메모리 공간에 포함되며 상수 관련한 데이터를 가지고 있는 Run-Time Constant Pool도 포함되어 있습니다.
+
+
+## Thread에서 자바 메모리를 어떻게 이용하는가
+
+Thread는 Stack을 제외한 Heap 메모리와 Method Area 메모리 공간을 공유합니다.
+
+각 Thread는 자기 자신의 Stack Memory를 가지고 있으며, Thread끼리 Stack memory 공간을 침범할 수 없습니다.
+
+
+이 같은 특성을 다시 말하자면 인스턴스 변수나 정적 변수는 Thread가 공유할 수 있으나, 메서드 내의 로컬 변수(지역 변수)는 Thread Stack에서 운용되므로 다른 Thread와 공유할 수 없습니다.
+
+예제 코드
+
+```
+
+public class Cafe implements Runnable {
+  public String cafreName = "카페";
+
+  // Thread가 호출하는 makeCoffee는
+  // 다른 스레드가 침벌할 수 없다.
+  // 다만 메서드 내에서 로컬 변수만이 아닌
+  // 인스턴스 변수를 사용한다면 다른 얘기이다.
+  public int makeCoffee() {
+    int salt = 3;
+    int sugar = 2;
+    int caffeine = 20;
+    return salt + sugar + caffeine;
+  }
+
+  public void run() {
+    // 각 스레드가 로컬 변수에는 접근할 수 없다
+    System.out.println(makeCoffee());
+    // 각 스레드는 인스턴스 변수에 접근할 수 있따.
+    System.out.println(cafeName)
+  }
+}
+
+```
+
+```
+public class Main {
+
+  public static void main(String[] args) {
+    Cafe cafe = new Cafe();
+
+    // Main Thread에서 변수값 변경
+    cafe.cafeName = "카페A";
+
+    Thread threadA = new Thread(cafe);
+    Thread threadB = new Thread(cafe);
+
+    threadA.start();
+    threadB.start();
+
+    // 25
+    // 카페A
+    // 25
+    // 카페A
+
+
+    // Main Thread에서 변경한 값이 서브 스레드에서
+    // 겁근할 때도 변경된 값으로 출력된다.
+    
+  }
+
+}
+
+```
+
+로컬 변수(지역 변수)라 함은 makeCoffee() 메서드 내부에 선언된 변수처럼 Stack에 일시적으로 할당 했다가 사용하고 소멸되는 변수를 말합니다.
+
+그러나 인스턴스 변수는 Cafe 인스턴스가 소멸되지 않는 한 어느 Thread에서도 접근이 가능하므로, 값이 변경될 경우 변경된 값을 읽을 수 있습니다.
+
+이유는 Heap 메모리를 공유하므로 참조값을 통해 Heap 메모리의 인스턴스에 접근할 수 있기 때문입니다.
+
+인스턴스 변수 뿐만 아니라 정적 변수도 공유합니다.
+
+그러므로, 인스턴스 변수나 정적 변수나 Thread 간에 영향을 줄 수 있으므로 특별한 이유가 아닌 이상 변경되지 않는 값을 읽는 것은 상관엾어도, 변경될 수 있는 값을 읽는 것은 피하는 것이 좋습니다.
