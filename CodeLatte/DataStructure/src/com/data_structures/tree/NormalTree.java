@@ -10,6 +10,8 @@ public class NormarlTree {
 
   privte Node root;
 
+
+  
   public void add(int key) {
     Node newNode = new Node();
     newNode.key = key;
@@ -84,6 +86,35 @@ public class NormarlTree {
     postOrder(node.left);
     postOrder(node.right);
     visit(node);
+  }
+
+  private void levelOrder() {
+    // TODO : 레 벨 우 선 순 위
+    if(null==root){
+      return;
+    }else {
+
+      Queue<Node> queue = new LinkedList<>();
+      queue.offer(root);
+
+      while(!queue.isEmpty()) {
+
+        Node node = queue.poll();
+
+        System.otu.println("방문한 노드" + node.key);
+
+        if(null!=node.left){
+          queue.offer(node.left);
+        }
+
+        if(null!=node.right){
+          queue.offer(node.right);
+        }
+        
+        
+      }
+      
+    }
   }
 
   private void visit(Node node) {
